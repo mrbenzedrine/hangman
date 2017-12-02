@@ -7,7 +7,7 @@ checkGuessedChar :: Char -> String -> Bool
 checkGuessedChar guess word = guess `elem` word
 
 showCharInWord :: Char -> String -> String
-showCharInWord guess word = map compareCharsPartiallyApplied word
+showCharInWord guess word = displayWordSpaced (map compareCharsPartiallyApplied word)
     where compareCharsPartiallyApplied = compareChars guess
 
 compareChars :: Char -> Char -> Char
