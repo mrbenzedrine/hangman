@@ -6,8 +6,8 @@ displayWordSpaced word = intersperse ' ' word
 checkGuessedChar :: Char -> String -> Bool
 checkGuessedChar guess word = guess `elem` word
 
-showCharInWord :: Char -> String -> String
-showCharInWord guess word = displayWordSpaced (map compareCharsPartiallyApplied word)
+showCharInWord :: String -> Char -> String
+showCharInWord word guess = displayWordSpaced (map compareCharsPartiallyApplied word)
     where compareCharsPartiallyApplied = compareChars guess
 
 compareChars :: Char -> Char -> Char
