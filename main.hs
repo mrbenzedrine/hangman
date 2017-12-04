@@ -6,3 +6,14 @@ main = do
     let wordCharsReplacedWithUnderscores = displayWordSpaced (showCharInWord word '_')
     putStrLn ("Here is the chosen word with all of its characters hidden: ")
     putStrLn wordCharsReplacedWithUnderscores
+    putStrLn "Please enter your guess for a letter in the chosen word:"
+    char <- getChar
+    let isCharInWord = checkGuessedChar char word
+    if(isCharInWord)
+        then do
+            putStrLn "You have guessed a letter correctly!"
+            putStrLn "Here is the word with the correctly guessed letter(s) revealed:"
+            let wordWithRevealedLetters = showCharInWord word char
+            putStrLn wordWithRevealedLetters
+        else
+            putStrLn "You have guessed incorrectly, sorry!"
