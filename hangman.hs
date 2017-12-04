@@ -1,3 +1,11 @@
+module Hangman
+( displayWordSpaced
+, checkGuessedChar
+, showCharInWord
+, showAllCorrectCharsInWord
+, getListOfWordsWithCorrectGuesses
+) where
+
 import Data.List
 
 displayWordSpaced :: String -> String
