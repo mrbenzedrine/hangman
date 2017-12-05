@@ -6,11 +6,11 @@ main = do
     let wordCharsReplacedWithUnderscores = displayWordSpaced (showCharInWord word '_')
     putStrLn ("Here is the chosen word with all of its characters hidden: ")
     putStrLn wordCharsReplacedWithUnderscores
-    guesses <- sequence (replicate 4 (guessAChar word))
-    print guesses
+    guessAChar word []
 
-guessAChar :: String -> IO Char
-guessAChar word = do
+guessAChar :: String -> [Char] -> IO ()
+guessAChar word listOfGuesses = do
+    print listOfGuesses
     putStrLn "Please enter your guess for a letter in the chosen word:"
     char <- getChar
     print char
@@ -23,4 +23,4 @@ guessAChar word = do
             putStrLn wordWithRevealedLetters
         else
             putStrLn "You have guessed incorrectly, sorry!"
-    return char
+    guessAChar word (char:listOfGuesses)
