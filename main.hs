@@ -10,7 +10,7 @@ main = do
 
 guessAChar :: String -> [Char] -> IO ()
 guessAChar word listOfGuesses = do
-    print listOfGuesses
+    putStrLn ("Here is a list of ALL your guesses so far: " ++ listOfGuesses)
     putStrLn "Please enter your guess for a letter in the chosen word:"
     char <- getChar
     if(char == '\n')
