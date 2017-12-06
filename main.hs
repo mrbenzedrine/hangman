@@ -13,7 +13,6 @@ guessAChar word listOfGuesses = do
     print listOfGuesses
     putStrLn "Please enter your guess for a letter in the chosen word:"
     char <- getChar
-    print char
     if(char == '\n')
         then
             guessAChar word listOfGuesses
