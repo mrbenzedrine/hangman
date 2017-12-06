@@ -19,11 +19,8 @@ guessAChar word listOfGuesses = do
         else do
             let isCharInWord = checkGuessedChar char word
             if(isCharInWord)
-                then do
+                then
                     putStrLn "You have guessed a letter correctly!"
-                    putStrLn "Here is the word with the correctly guessed letter(s) revealed:"
-                    let wordWithRevealedLetters = showCharInWord word char
-                    putStrLn wordWithRevealedLetters
                 else
                     putStrLn "You have guessed incorrectly, sorry!"
             let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses (char:listOfGuesses) word)
