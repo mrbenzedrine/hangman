@@ -35,9 +35,16 @@ guessAChar word listOfGuesses = do
                 partiallyAppliedFlippedGuessedChar character = flippedGuessedChar word character
                 invertedFlippdedGuessedChar character = not (partiallyAppliedFlippedGuessedChar character)
                 incorrectGuesses = filter invertedFlippdedGuessedChar (char:listOfGuesses)
+                maximumAllowedIncorrectGuesses = 5
             putStrLn ("Incorrect guesses so far are:" ++ incorrectGuesses)
             if(isWordCompletelyGuessed)
                 then do
                     putStrLn "You have successfully guessed the word, congratulations!"
                 else
-                    guessAChar word (char:listOfGuesses)
+                    if(length incorrectGuesses < maximumAllowedIncorrectGuesses)
+                        then
+                            guessAChar word (char:listOfGuesses)
+                        else do
+                            putStrLn "You have run out of guesses, sorry, you've lost!"
+                            putStrLn "The word you were looking for was:"
+                            putStrLn (displayWordSpaced word)
