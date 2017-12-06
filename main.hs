@@ -31,6 +31,11 @@ guessAChar word listOfGuesses = do
             putStrLn "Here is the word with all the correctly guessed so far letters revealed:"
             putStrLn wordWithAllCorrectlyGuessedLettersRevealed
             let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
+                flippedGuessedChar = flip checkGuessedChar
+                partiallyAppliedFlippedGuessedChar character = flippedGuessedChar word character
+                invertedFlippdedGuessedChar character = not (partiallyAppliedFlippedGuessedChar character)
+                incorrectGuesses = filter invertedFlippdedGuessedChar (char:listOfGuesses)
+            putStrLn ("Incorrect guesses so far are:" ++ incorrectGuesses)
             if(isWordCompletelyGuessed)
                 then do
                     putStrLn "You have successfully guessed the word, congratulations!"
