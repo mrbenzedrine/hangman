@@ -26,4 +26,9 @@ guessAChar word listOfGuesses = do
     let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses (char:listOfGuesses) word)
     putStrLn "Here is the word with all the correctly guessed so far letters revealed:"
     putStrLn wordWithAllCorrectlyGuessedLettersRevealed
-    guessAChar word (char:listOfGuesses)
+    let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
+    if(isWordCompletelyGuessed)
+        then do
+            putStrLn "You have successfully guessed the word, congratulations!"
+        else
+            guessAChar word (char:listOfGuesses)
