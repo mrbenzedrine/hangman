@@ -38,7 +38,7 @@ guessAChar word listOfGuesses = do
                 maximumAllowedIncorrectGuesses = 5
             putStrLn ("Incorrect guesses so far are:" ++ incorrectGuesses)
             if(isWordCompletelyGuessed)
-                then do
+                then
                     putStrLn "You have successfully guessed the word, congratulations!"
                 else
                     if(length incorrectGuesses < maximumAllowedIncorrectGuesses)
