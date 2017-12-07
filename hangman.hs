@@ -4,6 +4,7 @@ module Hangman
 , showCharInWord
 , showAllCorrectCharsInWord
 , getListOfWordsWithCorrectGuesses
+, getIncorrectGuesses
 ) where
 
 import Data.List
@@ -42,3 +43,9 @@ checkIfBothCharsAreUnderscores char1 char2
     |char1 == '_' && char2 == '_'  = '_'
     |otherwise                      = nonUnderscoreCharacter
         where nonUnderscoreCharacter = if char1 == '_' then char2 else char1
+
+getIncorrectGuesses :: String -> [Char] -> [Char]
+getIncorrectGuesses word listOfGuesses = filter invertedFlippdedGuessedChar listOfGuesses
+    where flippedGuessedChar = flip checkGuessedChar
+          partiallyAppliedFlippedGuessedChar character = flippedGuessedChar word character
+          invertedFlippdedGuessedChar character = not (partiallyAppliedFlippedGuessedChar character)
