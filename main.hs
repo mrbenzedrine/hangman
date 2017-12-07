@@ -11,6 +11,10 @@ main = do
 guessAChar :: String -> [Char] -> IO ()
 guessAChar word listOfGuesses = do
     putStrLn ("Here is a list of ALL your guesses so far: " ++ listOfGuesses)
+    let incorrectGuesses = getIncorrectGuesses word listOfGuesses
+        maximumAllowedIncorrectGuesses = 5
+        guessesLeft = show (maximumAllowedIncorrectGuesses - (length incorrectGuesses))
+    putStrLn ("You have " ++ guessesLeft ++ " guesses left")
     putStrLn "Please enter your guess for a letter in the chosen word:"
     char <- getChar
     if(char == '\n')
@@ -27,14 +31,13 @@ guessAChar word listOfGuesses = do
             putStrLn "Here is the word with all the correctly guessed so far letters revealed:"
             putStrLn wordWithAllCorrectlyGuessedLettersRevealed
             let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
-                incorrectGuesses = getIncorrectGuesses word (char:listOfGuesses)
-                maximumAllowedIncorrectGuesses = 5
-            putStrLn ("Incorrect guesses so far are:" ++ incorrectGuesses)
+                newIncorrectGuesses = getIncorrectGuesses word (char:listOfGuesses)
+            putStrLn ("Incorrect guesses so far are:" ++ newIncorrectGuesses)
             if(isWordCompletelyGuessed)
                 then
                     putStrLn "You have successfully guessed the word, congratulations!"
                 else
-                    if(length incorrectGuesses < maximumAllowedIncorrectGuesses)
+                    if(length newIncorrectGuesses < maximumAllowedIncorrectGuesses)
                         then
                             guessAChar word (char:listOfGuesses)
                         else do
