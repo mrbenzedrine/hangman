@@ -5,6 +5,7 @@ module Hangman
 , showAllCorrectCharsInWord
 , getListOfWordsWithCorrectGuesses
 , getIncorrectGuesses
+, checkIfGuessedBefore
 ) where
 
 import Data.List
@@ -49,3 +50,6 @@ getIncorrectGuesses word listOfGuesses = filter invertedFlippdedGuessedChar list
     where flippedGuessedChar = flip checkGuessedChar
           partiallyAppliedFlippedGuessedChar character = flippedGuessedChar word character
           invertedFlippdedGuessedChar character = not (partiallyAppliedFlippedGuessedChar character)
+
+checkIfGuessedBefore :: [Char] -> Char -> Bool
+checkIfGuessedBefore listOfGuesses char = char `elem` listOfGuesses
