@@ -6,9 +6,11 @@ module Hangman
 , getListOfWordsWithCorrectGuesses
 , getIncorrectGuesses
 , checkIfGuessedBefore
+, convertToLowerCase
 ) where
 
 import Data.List
+import Data.Char
 
 displayWordSpaced :: String -> String
 displayWordSpaced word = intersperse ' ' word
@@ -53,3 +55,6 @@ getIncorrectGuesses word listOfGuesses = filter invertedFlippdedGuessedChar list
 
 checkIfGuessedBefore :: [Char] -> Char -> Bool
 checkIfGuessedBefore listOfGuesses char = char `elem` listOfGuesses
+
+convertToLowerCase :: String -> String
+convertToLowerCase word = map toLower word
