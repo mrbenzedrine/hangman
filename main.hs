@@ -13,8 +13,8 @@ guessAChar word listOfGuesses = do
     putStrLn ("Here is a list of ALL your guesses so far: " ++ listOfGuesses)
     let incorrectGuesses = getIncorrectGuesses word listOfGuesses
         maximumAllowedIncorrectGuesses = 5
-        guessesLeft = show (maximumAllowedIncorrectGuesses - (length incorrectGuesses))
-    putStrLn ("You have " ++ guessesLeft ++ " guesses left")
+        noOfIncorrectGuessesLeft = show (maximumAllowedIncorrectGuesses - (length incorrectGuesses))
+    putStrLn ("You have made " ++ (show (length incorrectGuesses)) ++  " incorrect guess(es), so you are allowed to make only " ++ noOfIncorrectGuessesLeft ++ " more incorrect guess(es)")
     putStrLn "Please enter your guess for a letter in the chosen word:"
     char <- getChar
     if(char == '\n')
