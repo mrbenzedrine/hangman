@@ -1,4 +1,5 @@
 import Hangman
+import Data.Char
 
 main = do
     putStrLn "Please enter the word to be guessed"
@@ -6,7 +7,8 @@ main = do
     let wordCharsReplacedWithUnderscores = displayWordSpaced (showCharInWord word '_')
     putStrLn ("Here is the chosen word with all of its characters hidden: ")
     putStrLn wordCharsReplacedWithUnderscores
-    guessAChar word []
+    let lowercaseWord = convertToLowerCase word
+    guessAChar lowercaseWord []
 
 guessAChar :: String -> [Char] -> IO ()
 guessAChar word listOfGuesses = do
@@ -21,8 +23,9 @@ guessAChar word listOfGuesses = do
         then
             guessAChar word listOfGuesses
         else do
-            let isCharInWord = checkGuessedChar char word
-                hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses char
+            let lowercaseChar = toLower char
+                isCharInWord = checkGuessedChar lowercaseChar word
+                hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
             if(hasCharBeenGuessedBefore)
                 then do
                     putStrLn "You have already guessed that letter before"
@@ -33,11 +36,11 @@ guessAChar word listOfGuesses = do
                             putStrLn "You have guessed a letter correctly!"
                         else
                             putStrLn "You have guessed incorrectly, sorry!"
-                    let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses (char:listOfGuesses) word)
+                    let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses (lowercaseChar:listOfGuesses) word)
                     putStrLn "Here is the word with all the correctly guessed so far letters revealed:"
                     putStrLn wordWithAllCorrectlyGuessedLettersRevealed
                     let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
-                        newIncorrectGuesses = getIncorrectGuesses word (char:listOfGuesses)
+                        newIncorrectGuesses = getIncorrectGuesses word (lowercaseChar:listOfGuesses)
                     putStrLn ("Incorrect guesses so far are:" ++ newIncorrectGuesses)
                     if(isWordCompletelyGuessed)
                         then
@@ -45,7 +48,7 @@ guessAChar word listOfGuesses = do
                         else
                             if(length newIncorrectGuesses < maximumAllowedIncorrectGuesses)
                                 then
-                                    guessAChar word (char:listOfGuesses)
+                                    guessAChar word (lowercaseChar:listOfGuesses)
                                 else do
                                     putStrLn "You have run out of guesses, sorry, you've lost!"
                                     putStrLn "The word you were looking for was:"
