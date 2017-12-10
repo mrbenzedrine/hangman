@@ -9,7 +9,12 @@ main = do
     putStrLn wordCharsReplacedWithUnderscores
     let lowercaseWord = convertToLowerCase word
         maximumAllowedIncorrectGuesses = 5
-    guessAChar lowercaseWord [' '] maximumAllowedIncorrectGuesses
+        doesInputHaveSpaces = ' ' `elem` lowercaseWord
+    if(doesInputHaveSpaces)
+        then
+            guessAChar lowercaseWord [' '] maximumAllowedIncorrectGuesses
+        else
+            guessAChar lowercaseWord [] maximumAllowedIncorrectGuesses
 
 guessAChar :: String -> [Char] -> Int -> IO ()
 guessAChar word listOfGuesses maxIncorrectGuesses = do
