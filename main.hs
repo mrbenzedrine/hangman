@@ -8,29 +8,29 @@ main = do
     putStrLn ("Here is the chosen word or phrase with all of its characters hidden: ")
     putStrLn wordCharsReplacedWithUnderscores
     let lowercaseWord = convertToLowerCase word
-    guessAChar lowercaseWord [' ']
+        maximumAllowedIncorrectGuesses = 5
+    guessAChar lowercaseWord [' '] maximumAllowedIncorrectGuesses
 
-guessAChar :: String -> [Char] -> IO ()
-guessAChar word listOfGuesses = do
+guessAChar :: String -> [Char] -> Int -> IO ()
+guessAChar word listOfGuesses maxIncorrectGuesses = do
     putStrLn ("Here is a list of ALL your guesses so far: " ++ listOfGuesses)
     let incorrectGuesses = getIncorrectGuesses word listOfGuesses
-        maximumAllowedIncorrectGuesses = 5
-        noOfIncorrectGuessesLeft = maximumAllowedIncorrectGuesses - (length incorrectGuesses)
+        noOfIncorrectGuessesLeft = maxIncorrectGuesses - (length incorrectGuesses)
     putStrLn ("You have made " ++ (show (length incorrectGuesses)) ++  " incorrect guess(es), so you are allowed to make only " ++ (show noOfIncorrectGuessesLeft) ++ " more incorrect guess(es)")
     putStrLn "Please enter your guess for a letter in the chosen word or phrase:"
     char <- getChar
     if(char == '\n')
         then
-            guessAChar word listOfGuesses
+            guessAChar word listOfGuesses maxIncorrectGuesses
         else do
             let lowercaseChar = toLower char
                 hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
             if(hasCharBeenGuessedBefore)
                 then do
                     putStrLn "You have already guessed that letter before"
-                    guessAChar word listOfGuesses
+                    guessAChar word listOfGuesses maxIncorrectGuesses
                 else
-                    guessANewChar word (lowercaseChar:listOfGuesses) maximumAllowedIncorrectGuesses
+                    guessANewChar word (lowercaseChar:listOfGuesses) maxIncorrectGuesses
 
 guessANewChar :: String -> [Char] -> Int -> IO ()
 guessANewChar word newListOfGuesses@(guess:previousGuesses) maxIncorrectGuesses = do
@@ -52,7 +52,7 @@ guessANewChar word newListOfGuesses@(guess:previousGuesses) maxIncorrectGuesses 
         else
             if(length newIncorrectGuesses < maxIncorrectGuesses)
                 then
-                    guessAChar word newListOfGuesses
+                    guessAChar word newListOfGuesses maxIncorrectGuesses
                 else do
                     putStrLn "You have run out of guesses, sorry, you've lost!"
                     putStrLn "The word or phrase you were looking for was:"
