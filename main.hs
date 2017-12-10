@@ -24,32 +24,36 @@ guessAChar word listOfGuesses = do
             guessAChar word listOfGuesses
         else do
             let lowercaseChar = toLower char
-                isCharInWord = checkGuessedChar lowercaseChar word
                 hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
             if(hasCharBeenGuessedBefore)
                 then do
                     putStrLn "You have already guessed that letter before"
                     guessAChar word listOfGuesses
+                else
+                    guessANewChar word (lowercaseChar:listOfGuesses) maximumAllowedIncorrectGuesses
+
+guessANewChar :: String -> [Char] -> Int -> IO ()
+guessANewChar word newListOfGuesses@(guess:previousGuesses) maxIncorrectGuesses = do
+    let isCharInWord = checkGuessedChar guess word
+    if(isCharInWord)
+        then
+            putStrLn "You have guessed a letter correctly!"
+        else
+            putStrLn "You have guessed incorrectly, sorry!"
+    let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses newListOfGuesses word)
+    putStrLn "Here is the word or phrase with all the correctly guessed so far letters revealed:"
+    putStrLn wordWithAllCorrectlyGuessedLettersRevealed
+    let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
+        newIncorrectGuesses = getIncorrectGuesses word newListOfGuesses
+    putStrLn ("Incorrect guesses so far are:" ++ newIncorrectGuesses)
+    if(isWordCompletelyGuessed)
+        then
+            putStrLn "You have successfully guessed the word or phrase, congratulations!"
+        else
+            if(length newIncorrectGuesses < maxIncorrectGuesses)
+                then
+                    guessAChar word newListOfGuesses
                 else do
-                    if(isCharInWord)
-                        then
-                            putStrLn "You have guessed a letter correctly!"
-                        else
-                            putStrLn "You have guessed incorrectly, sorry!"
-                    let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses (lowercaseChar:listOfGuesses) word)
-                    putStrLn "Here is the word or phrase with all the correctly guessed so far letters revealed:"
-                    putStrLn wordWithAllCorrectlyGuessedLettersRevealed
-                    let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
-                        newIncorrectGuesses = getIncorrectGuesses word (lowercaseChar:listOfGuesses)
-                    putStrLn ("Incorrect guesses so far are:" ++ newIncorrectGuesses)
-                    if(isWordCompletelyGuessed)
-                        then
-                            putStrLn "You have successfully guessed the word or phrase, congratulations!"
-                        else
-                            if(length newIncorrectGuesses < maximumAllowedIncorrectGuesses)
-                                then
-                                    guessAChar word (lowercaseChar:listOfGuesses)
-                                else do
-                                    putStrLn "You have run out of guesses, sorry, you've lost!"
-                                    putStrLn "The word or phrase you were looking for was:"
-                                    putStrLn (displayWordSpaced word)
+                    putStrLn "You have run out of guesses, sorry, you've lost!"
+                    putStrLn "The word or phrase you were looking for was:"
+                    putStrLn (displayWordSpaced word)
