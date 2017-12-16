@@ -23,12 +23,13 @@ guessAChar word listOfGuesses maxIncorrectGuesses = do
         noOfIncorrectGuessesLeft = maxIncorrectGuesses - (length incorrectGuesses)
     putStrLn ("You have made " ++ (show (length incorrectGuesses)) ++  " incorrect guess(es), so you are allowed to make only " ++ (show noOfIncorrectGuessesLeft) ++ " more incorrect guess(es)")
     putStrLn "Please enter your guess for a letter in the chosen word or phrase:"
-    char <- getChar
-    if(char == '\n')
+    guess <- getLine
+    if(null guess)
         then
             guessAChar word listOfGuesses maxIncorrectGuesses
         else do
-            let lowercaseChar = toLower char
+            let char = head guess
+                lowercaseChar = toLower char
                 hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
             if(hasCharBeenGuessedBefore)
                 then do
