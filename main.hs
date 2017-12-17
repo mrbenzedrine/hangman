@@ -23,7 +23,6 @@ main = do
 
 guessAChar :: String -> [Char] -> Int -> IO ()
 guessAChar word listOfGuesses maxIncorrectGuesses = do
-    putStrLn ("Here is a list of ALL your guesses so far: " ++ listOfGuesses)
     let incorrectGuesses = getIncorrectGuesses word listOfGuesses
         noOfIncorrectGuessesLeft = maxIncorrectGuesses - (length incorrectGuesses)
     putStrLn ("You have made " ++ (show (length incorrectGuesses)) ++  " incorrect guess(es), so you are allowed to make only " ++ (show noOfIncorrectGuessesLeft) ++ " more incorrect guess(es)")
