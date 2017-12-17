@@ -46,22 +46,26 @@ guessAChar word listOfGuesses maxIncorrectGuesses = do
                         then do
                             putStrLn "You have already guessed that letter before"
                             guessAChar word listOfGuesses maxIncorrectGuesses
-                        else
-                            guessANewChar word (lowercaseChar:listOfGuesses) maxIncorrectGuesses
+                        else do
+                            guessANewChar word lowercaseChar
+                            revealAllCorrectGuessesInWord word (lowercaseChar:listOfGuesses) maxIncorrectGuesses
 
-guessANewChar :: String -> [Char] -> Int -> IO ()
-guessANewChar word newListOfGuesses@(guess:previousGuesses) maxIncorrectGuesses = do
+guessANewChar :: String -> Char -> IO ()
+guessANewChar word guess = do
     let isCharInWord = checkGuessedChar guess word
     if(isCharInWord)
         then
             putStrLn "You have guessed a letter correctly!"
         else
             putStrLn "You have guessed incorrectly, sorry!"
-    let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses newListOfGuesses word)
+
+revealAllCorrectGuessesInWord :: String -> [Char] -> Int -> IO ()
+revealAllCorrectGuessesInWord word listOfGuesses maxIncorrectGuesses = do
+    let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses listOfGuesses word)
     putStrLn "Here is the word or phrase with all the correctly guessed so far letters revealed:"
     putStrLn wordWithAllCorrectlyGuessedLettersRevealed
     let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
-        newIncorrectGuesses = getIncorrectGuesses word newListOfGuesses
+        newIncorrectGuesses = getIncorrectGuesses word listOfGuesses
     putStrLn ("Incorrect guesses so far are:" ++ newIncorrectGuesses)
     if(isWordCompletelyGuessed)
         then
@@ -69,7 +73,7 @@ guessANewChar word newListOfGuesses@(guess:previousGuesses) maxIncorrectGuesses 
         else
             if(length newIncorrectGuesses < maxIncorrectGuesses)
                 then
-                    guessAChar word newListOfGuesses maxIncorrectGuesses
+                    guessAChar word listOfGuesses maxIncorrectGuesses
                 else do
                     putStrLn "You have run out of guesses, sorry, you've lost!"
                     putStrLn "The word or phrase you were looking for was:"
