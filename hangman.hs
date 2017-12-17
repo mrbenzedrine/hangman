@@ -8,6 +8,7 @@ module Hangman
 , checkIfGuessedBefore
 , convertToLowerCase
 , checkIfValidWord
+, checkIfValidChar
 ) where
 
 import Data.List
@@ -64,3 +65,8 @@ checkIfValidWord :: String -> Bool
 checkIfValidWord word = not (null (dropWhile (==False) listOfBools))
     where alphabet = ['a'..'z'] ++ ['A'..'Z']
           listOfBools = map (`elem` word) alphabet
+
+checkIfValidChar :: Char -> Bool
+checkIfValidChar char = not (null (dropWhile (==False) listOfBools))
+    where alphabet = ['a'..'z'] ++ ['A'..'Z']
+          listOfBools = map (==char) alphabet
