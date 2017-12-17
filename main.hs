@@ -48,7 +48,11 @@ guessAChar word listOfGuesses maxIncorrectGuesses = do
                             guessAChar word listOfGuesses maxIncorrectGuesses
                         else do
                             guessANewChar word lowercaseChar
-                            revealAllCorrectGuessesInWord word (lowercaseChar:listOfGuesses) maxIncorrectGuesses
+                            let newListOfGuesses = lowercaseChar:listOfGuesses
+                                wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses newListOfGuesses word)
+                            putStrLn "Here is the word or phrase with all the correctly guessed so far letters revealed:"
+                            putStrLn wordWithAllCorrectlyGuessedLettersRevealed
+                            checkIfGameIsFinished word wordWithAllCorrectlyGuessedLettersRevealed newListOfGuesses maxIncorrectGuesses
 
 guessANewChar :: String -> Char -> IO ()
 guessANewChar word guess = do
@@ -59,12 +63,9 @@ guessANewChar word guess = do
         else
             putStrLn "You have guessed incorrectly, sorry!"
 
-revealAllCorrectGuessesInWord :: String -> [Char] -> Int -> IO ()
-revealAllCorrectGuessesInWord word listOfGuesses maxIncorrectGuesses = do
-    let wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses listOfGuesses word)
-    putStrLn "Here is the word or phrase with all the correctly guessed so far letters revealed:"
-    putStrLn wordWithAllCorrectlyGuessedLettersRevealed
-    let isWordCompletelyGuessed = wordWithAllCorrectlyGuessedLettersRevealed == (displayWordSpaced word)
+checkIfGameIsFinished :: String -> String -> [Char] -> Int -> IO ()
+checkIfGameIsFinished word wordWithCorrectLettersRevealed listOfGuesses maxIncorrectGuesses = do
+    let isWordCompletelyGuessed = wordWithCorrectLettersRevealed == (displayWordSpaced word)
         newIncorrectGuesses = getIncorrectGuesses word listOfGuesses
     putStrLn ("Incorrect guesses so far are:" ++ newIncorrectGuesses)
     if(isWordCompletelyGuessed)
