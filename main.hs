@@ -33,15 +33,21 @@ guessAChar word listOfGuesses maxIncorrectGuesses = do
         then
             guessAChar word listOfGuesses maxIncorrectGuesses
         else do
-            let char = head guess
-                lowercaseChar = toLower char
-                hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
-            if(hasCharBeenGuessedBefore)
+            let isCharValid = checkIfValidChar (head guess)
+            if(not isCharValid)
                 then do
-                    putStrLn "You have already guessed that letter before"
+                    putStrLn "You have entered an invalid character, please enter a valid character"
                     guessAChar word listOfGuesses maxIncorrectGuesses
-                else
-                    guessANewChar word (lowercaseChar:listOfGuesses) maxIncorrectGuesses
+                else do
+                    let char = head guess
+                        lowercaseChar = toLower char
+                        hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
+                    if(hasCharBeenGuessedBefore)
+                        then do
+                            putStrLn "You have already guessed that letter before"
+                            guessAChar word listOfGuesses maxIncorrectGuesses
+                        else
+                            guessANewChar word (lowercaseChar:listOfGuesses) maxIncorrectGuesses
 
 guessANewChar :: String -> [Char] -> Int -> IO ()
 guessANewChar word newListOfGuesses@(guess:previousGuesses) maxIncorrectGuesses = do
