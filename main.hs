@@ -4,26 +4,22 @@ import Data.Char
 main = do
     putStrLn "Please enter the word or phrase to be guessed"
     word <- getLine
-    if(null word)
-        then
+    if(not $ checkIfValidWord word)
+        then do
+            putStrLn "Please enter a valid word or phrase"
             main
         else do
-            if(not $ checkIfValidWord word)
-                then do
-                    putStrLn "Please enter a valid word or phrase"
-                    main
-                else do
-                    let wordCharsReplacedWithUnderscores = displayWordSpaced (showCharInWord word ' ')
-                    putStrLn ("Here is the chosen word or phrase with all of its characters hidden: ")
-                    putStrLn wordCharsReplacedWithUnderscores
-                    let lowercaseWord = convertToLowerCase word
-                        maximumAllowedIncorrectGuesses = 5
-                        doesInputHaveSpaces = ' ' `elem` lowercaseWord
-                    if(doesInputHaveSpaces)
-                        then
-                            guessAChar lowercaseWord [' '] maximumAllowedIncorrectGuesses
-                        else
-                            guessAChar lowercaseWord [] maximumAllowedIncorrectGuesses
+            let wordCharsReplacedWithUnderscores = displayWordSpaced (showCharInWord word ' ')
+            putStrLn ("Here is the chosen word or phrase with all of its characters hidden: ")
+            putStrLn wordCharsReplacedWithUnderscores
+            let lowercaseWord = convertToLowerCase word
+                maximumAllowedIncorrectGuesses = 5
+                doesInputHaveSpaces = ' ' `elem` lowercaseWord
+            if(doesInputHaveSpaces)
+                then
+                    guessAChar lowercaseWord [' '] maximumAllowedIncorrectGuesses
+                else
+                    guessAChar lowercaseWord [] maximumAllowedIncorrectGuesses
 
 guessAChar :: String -> [Char] -> Int -> IO ()
 guessAChar word listOfGuesses maxIncorrectGuesses = do
