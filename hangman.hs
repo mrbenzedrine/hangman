@@ -50,10 +50,10 @@ checkIfBothCharsAreUnderscores char1 char2
         where nonUnderscoreCharacter = if char1 == '_' then char2 else char1
 
 getIncorrectGuesses :: String -> [Char] -> [Char]
-getIncorrectGuesses word listOfGuesses = filter invertedFlippdedGuessedChar listOfGuesses
+getIncorrectGuesses word listOfGuesses = filter invertedFlippedGuessedChar listOfGuesses
     where flippedGuessedChar = flip checkGuessedChar
           partiallyAppliedFlippedGuessedChar character = flippedGuessedChar word character
-          invertedFlippdedGuessedChar character = not (partiallyAppliedFlippedGuessedChar character)
+          invertedFlippedGuessedChar character = not (partiallyAppliedFlippedGuessedChar character)
 
 checkIfGuessedBefore :: [Char] -> Char -> Bool
 checkIfGuessedBefore listOfGuesses char = char `elem` listOfGuesses
