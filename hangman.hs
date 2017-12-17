@@ -7,6 +7,7 @@ module Hangman
 , getIncorrectGuesses
 , checkIfGuessedBefore
 , convertToLowerCase
+, checkIfValidWord
 ) where
 
 import Data.List
