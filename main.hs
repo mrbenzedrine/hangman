@@ -26,6 +26,7 @@ guessAChar word listOfGuesses maxIncorrectGuesses = do
     let incorrectGuesses = getIncorrectGuesses word listOfGuesses
         noOfIncorrectGuessesLeft = maxIncorrectGuesses - (length incorrectGuesses)
     putStrLn ("You have made " ++ (show (length incorrectGuesses)) ++  " incorrect guess(es), so you are allowed to make only " ++ (show noOfIncorrectGuessesLeft) ++ " more incorrect guess(es)")
+    putStrLn ("Incorrect guesses so far are: " ++ incorrectGuesses)
     putStrLn "Please enter your guess for a letter in the chosen word or phrase:"
     guess <- getLine
     if(null guess)
@@ -66,7 +67,6 @@ checkIfGameIsFinished :: String -> String -> [Char] -> Int -> IO ()
 checkIfGameIsFinished word wordWithCorrectLettersRevealed listOfGuesses maxIncorrectGuesses = do
     let isWordCompletelyGuessed = wordWithCorrectLettersRevealed == (displayWordSpaced word)
         newIncorrectGuesses = getIncorrectGuesses word listOfGuesses
-    putStrLn ("Incorrect guesses so far are:" ++ newIncorrectGuesses)
     if(isWordCompletelyGuessed)
         then
             putStrLn "You have successfully guessed the word or phrase, congratulations!"
