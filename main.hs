@@ -29,30 +29,19 @@ guessAChar word listOfGuesses maxIncorrectGuesses = do
     putStrLn ("Incorrect guesses so far are: " ++ incorrectGuesses)
     putStrLn "Please enter your guess for a letter in the chosen word or phrase:"
     guess <- getLine
-    if(null guess)
+    isGuessValid <- checkGuessIsValid guess listOfGuesses
+    if(not isGuessValid)
         then
             guessAChar word listOfGuesses maxIncorrectGuesses
         else do
-            let isCharValid = checkIfValidChar (head guess)
-            if(not isCharValid)
-                then do
-                    putStrLn "You have entered an invalid character, please enter a valid character"
-                    guessAChar word listOfGuesses maxIncorrectGuesses
-                else do
-                    let char = head guess
-                        lowercaseChar = toLower char
-                        hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
-                    if(hasCharBeenGuessedBefore)
-                        then do
-                            putStrLn "You have already guessed that letter before"
-                            guessAChar word listOfGuesses maxIncorrectGuesses
-                        else do
-                            guessANewChar word lowercaseChar
-                            let newListOfGuesses = lowercaseChar:listOfGuesses
-                                wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses newListOfGuesses word)
-                            putStrLn "Here is the word or phrase with all the correctly guessed so far letters revealed:"
-                            putStrLn wordWithAllCorrectlyGuessedLettersRevealed
-                            checkIfGameIsFinished word wordWithAllCorrectlyGuessedLettersRevealed newListOfGuesses maxIncorrectGuesses
+            let char = head guess
+                lowercaseChar = toLower char
+            guessANewChar word lowercaseChar
+            let newListOfGuesses = lowercaseChar:listOfGuesses
+                wordWithAllCorrectlyGuessedLettersRevealed = showAllCorrectCharsInWord word (getListOfWordsWithCorrectGuesses newListOfGuesses word)
+            putStrLn "Here is the word or phrase with all the correctly guessed so far letters revealed:"
+            putStrLn wordWithAllCorrectlyGuessedLettersRevealed
+            checkIfGameIsFinished word wordWithAllCorrectlyGuessedLettersRevealed newListOfGuesses maxIncorrectGuesses
 
 guessANewChar :: String -> Char -> IO ()
 guessANewChar word guess = do
@@ -78,3 +67,25 @@ checkIfGameIsFinished word wordWithCorrectLettersRevealed listOfGuesses maxIncor
                     putStrLn "You have run out of guesses, sorry, you've lost!"
                     putStrLn "The word or phrase you were looking for was:"
                     putStrLn (displayWordSpaced word)
+
+checkGuessIsValid :: String -> [Char] -> IO Bool
+checkGuessIsValid guess listOfGuesses = do
+    if(null guess)
+        then
+            return False
+        else do
+            let isCharValid = checkIfValidChar (head guess)
+            if(not isCharValid)
+                then do
+                    putStrLn "You have entered an invalid character, please enter a valid character"
+                    return False
+                else do
+                    let char = head guess
+                        lowercaseChar = toLower char
+                        hasCharBeenGuessedBefore = checkIfGuessedBefore listOfGuesses lowercaseChar
+                    if(hasCharBeenGuessedBefore)
+                        then do
+                            putStrLn "You have already guessed that letter before"
+                            return False
+                        else
+                            return True
