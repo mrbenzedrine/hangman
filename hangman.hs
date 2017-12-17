@@ -58,3 +58,8 @@ checkIfGuessedBefore listOfGuesses char = char `elem` listOfGuesses
 
 convertToLowerCase :: String -> String
 convertToLowerCase word = map toLower word
+
+checkIfValidWord :: String -> Bool
+checkIfValidWord word = not (null (dropWhile (==False) listOfBools))
+    where alphabet = ['a'..'z'] ++ ['A'..'Z']
+          listOfBools = map (`elem` word) alphabet
