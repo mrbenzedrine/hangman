@@ -1,3 +1,5 @@
+module Main where
+
 import Hangman
 import Data.Char
 import System.Console.ANSI
