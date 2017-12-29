@@ -1,5 +1,6 @@
 import Hangman
 import Data.Char
+import System.Console.ANSI
 
 main = do
     putStrLn "Please enter the word or phrase to be guessed"
@@ -9,6 +10,7 @@ main = do
             putStrLn "Please enter a valid word or phrase"
             main
         else do
+            clearScreen
             let wordCharsReplacedWithUnderscores = displayWordSpaced (showCharInWord word ' ')
             putStrLn ("Here is the chosen word or phrase with all of its characters hidden: ")
             putStrLn wordCharsReplacedWithUnderscores
