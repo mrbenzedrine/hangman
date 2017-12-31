@@ -9,5 +9,11 @@ have Cabal installed you can download and install it via their
 In the project directory, use `cabal build` to build the project and then 
 `cabal run` to run it.
 
+## Tests
+Only hand-coded testing has been implemented so far, with the HUnit package.
+
+To run a test in `tests.hs` load it into ghci with either `ghci tests.hs` if ghci
+is not open, or `:l tests.hs` if ghci is already open, and use `runTestTT test_name`.
+
 [Cabal download]: https://www.haskell.org/cabal/download.html
 [Haskell Platform]: https://www.haskell.org/platform/
