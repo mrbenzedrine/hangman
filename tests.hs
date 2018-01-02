@@ -7,3 +7,8 @@ test_checkIfValidWord = TestList [ "test checkIfValidWord: normal word"     ~: T
                                  , "test checkIfValidWord: invalid chars"   ~: False    ~=? (checkIfValidWord "#[]{}")
                                  , "test checkIfValidWord: blanks"          ~: False    ~=? (checkIfValidWord "   ")
                                  ]
+
+test_checkIfValidChar = TestList [ "test checkIfValidChar: normal letter"   ~: True     ~=? (checkIfValidChar 'a')
+                                 , "test checkIfValidChar: invalid char"    ~: False    ~=? (checkIfValidChar '#')
+                                 , "test checkIfValidChar: newline char"    ~: False    ~=? (checkIfValidChar '\n')
+                                 ]
