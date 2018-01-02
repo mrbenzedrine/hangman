@@ -14,6 +14,7 @@ Only hand-coded testing has been implemented so far, with the HUnit package.
 
 To run a test in `tests.hs` load it into ghci with either `ghci tests.hs` if ghci
 is not open, or `:l tests.hs` if ghci is already open, and use `runTestTT test_name`.
+To run all tests use `runTestTT allTests`.
 
 [Cabal download]: https://www.haskell.org/cabal/download.html
 [Haskell Platform]: https://www.haskell.org/platform/
