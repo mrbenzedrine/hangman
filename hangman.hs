@@ -9,6 +9,7 @@ module Hangman
 , convertToLowerCase
 , checkIfValidWord
 , checkIfValidChar
+, removeExtraSpaces
 ) where
 
 import Data.List
@@ -70,3 +71,11 @@ checkIfValidChar :: Char -> Bool
 checkIfValidChar char = not (null (dropWhile (==False) listOfBools))
     where alphabet = ['a'..'z'] ++ ['A'..'Z']
           listOfBools = map (==char) alphabet
+
+removeExtraSpaces :: String -> String
+removeExtraSpaces [] = []
+removeExtraSpaces (' ':[]) = []
+removeExtraSpaces (' ':xs)
+    |head xs == ' ' = removeExtraSpaces xs
+    |otherwise      = ' ' : (removeExtraSpaces xs)
+removeExtraSpaces (x:xs) = x : (removeExtraSpaces xs)
