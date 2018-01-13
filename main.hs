@@ -13,10 +13,11 @@ main = do
             main
         else do
             clearScreen
-            let wordCharsReplacedWithUnderscores = showCharInWord word ' '
+            let wordWithExtraSpacesRemoved = removeExtraSpaces word
+                wordCharsReplacedWithUnderscores = showCharInWord wordWithExtraSpacesRemoved ' '
             putStrLn ("Here is the chosen word or phrase with all of its characters hidden: ")
             putStrLn wordCharsReplacedWithUnderscores
-            let lowercaseWord = convertToLowerCase word
+            let lowercaseWord = convertToLowerCase wordWithExtraSpacesRemoved
                 maximumAllowedIncorrectGuesses = 5
                 doesInputHaveSpaces = ' ' `elem` lowercaseWord
             if(doesInputHaveSpaces)
